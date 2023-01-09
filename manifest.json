@@ -1,0 +1,58 @@
+{
+    "components": [
+        {
+            "id": "runtime-local",
+            "alias": "local",
+            "type": "runtime",
+            "programs": [
+                {
+                    "id": "ensure-dapr",
+                    "executable": "./src/ensure-dapr.sh"
+                },
+                {
+                    "id": "run-mosquitto",
+                    "executable": "./src/run-mosquitto.sh"
+                },
+                {
+                    "id": "run-vehicledatabroker",
+                    "executable": "./src/run-vehicledatabroker.sh"
+                },
+                {
+                    "id": "run-vehicledatabroker-cli",
+                    "executable": "./src/run-vehicledatabroker-cli.sh"
+                },
+                {
+                    "id": "run-feedercan",
+                    "executable": "./src/run-feedercan.sh"
+                },
+                {
+                    "id": "run-vehicleservices",
+                    "executable": "./src/run-vehicleservices.sh"
+                }
+            ],
+            "start": [
+                {
+                    "id": "ensure-dapr"
+                },
+                {
+                    "id": "run-mosquitto",
+                    "dependsOn": "ensure-dapr",
+                    "startupLine": "mosquitto version 2.0.14 running"
+                },
+                {
+                    "id": "run-vehicledatabroker",
+                    "dependsOn": "run-mosquitto",
+                    "startupLine": "You're up and running! Dapr logs will appear here."
+                },
+                {
+                    "id": "run-feedercan",
+                    "dependsOn": "run-vehicledatabroker"
+                },
+                {
+                    "id": "run-vehicleservices",
+                    "dependsOn": "run-vehicledatabroker"
+                }
+            ]
+        }
+    ]
+}
