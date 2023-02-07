@@ -17,6 +17,8 @@ echo "#######################################################"
 echo "### Running Databroker                              ###"
 echo "#######################################################"
 
+VSPEC_FILE_PATH=$(echo $VELOCITAS_PROJECT_CACHE_DATA | jq .vspec_file_path | tr -d '"')
+
 DATABROKER_PORT='55555'
 export DATABROKER_GRPC_PORT='52001'
 #export RUST_LOG="info,databroker=debug,vehicle_data_broker=debug"
@@ -29,9 +31,10 @@ then
 fi
 
 docker run \
+    `if [ ! "$VSPEC_FILE_PATH" == null ]; then echo "-v $VSPEC_FILE_PATH:$VSPEC_FILE_PATH -e KUKSA_DATA_BROKER_METADATA_FILE=$VSPEC_FILE_PATH"; fi` \
+    -e DATABROKER_GRPC_PORT \
     -p $DATABROKER_PORT:$DATABROKER_PORT \
     -p $DATABROKER_GRPC_PORT:$DATABROKER_GRPC_PORT \
-    -e DATABROKER_GRPC_PORT \
     --network host \
     $DATABROKER_IMAGE:$DATABROKER_TAG &
 
