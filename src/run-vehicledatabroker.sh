@@ -17,7 +17,7 @@ echo "#######################################################"
 echo "### Running Databroker                              ###"
 echo "#######################################################"
 
-VSPEC_FILE_PATH=$(echo $VELOCITAS_PROJECT_CACHE_DATA | jq .vspec_file_path | tr -d '"')
+VSPEC_FILE_PATH=$(echo $VELOCITAS_CACHE_DATA | jq .vspec_file_path | tr -d '"')
 
 DATABROKER_PORT='55555'
 export DATABROKER_GRPC_PORT='52001'
