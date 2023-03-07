@@ -34,7 +34,7 @@ fi
 
 DATABROKER_EXEC_PATH="$DATABROKER_ASSET_FOLDER/$PROCESSOR/databroker-cli"
 
-if [[ ! -f "$DATABROKER_EXEC_PATH/databroker" ]]
+if [[ ! -f "$DATABROKER_EXEC_PATH/databroker-cli" ]]
 then
     DOWNLOAD_URL=https://github.com/eclipse/kuksa.val/releases/download
     echo "Downloading databroker:$DATABROKER_TAG"
