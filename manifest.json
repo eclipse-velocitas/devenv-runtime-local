@@ -28,29 +28,40 @@
                 {
                     "id": "run-vehicleservices",
                     "executable": "./src/run-vehicleservices.sh"
+                },
+                {
+                    "id": "up",
+                    "executable": "python3",
+                    "args": ["./src/runtime-up.py"]
+                },
+                {
+                    "id": "deploy",
+                    "executable": "python3",
+                    "args": ["./src/deploy-app.py"]
+                },
+                {
+                    "id": "install-deps",
+                    "executable": "python",
+                    "args": ["./src/install_deps.py"]
                 }
             ],
-            "start": [
+            "onPostInit": [
                 {
-                    "id": "ensure-dapr"
+                    "ref": "install-deps"
+                }
+            ],
+            "variables": [
+                {
+                    "name": "daprRuntimeVersion",
+                    "type": "string",
+                    "description": "Version of the dapr.io runtime to use.",
+                    "default": "1.10.3"
                 },
                 {
-                    "id": "run-mosquitto",
-                    "dependsOn": "ensure-dapr",
-                    "startupLine": "mosquitto version 2.0.14 running"
-                },
-                {
-                    "id": "run-vehicledatabroker",
-                    "dependsOn": "run-mosquitto",
-                    "startupLine": "You're up and running! Dapr logs will appear here."
-                },
-                {
-                    "id": "run-feedercan",
-                    "dependsOn": "run-vehicledatabroker"
-                },
-                {
-                    "id": "run-vehicleservices",
-                    "dependsOn": "run-vehicledatabroker"
+                    "name": "daprCliVersion",
+                    "type": "string",
+                    "description": "Version of the dapr.io CLI to use.",
+                    "default": "1.10.0"
                 }
             ]
         }
