@@ -30,29 +30,20 @@
                     "executable": "./src/run-vehicleservices.sh"
                 }
             ],
-            "start": [
+            "variables": [
                 {
-                    "id": "ensure-dapr"
+                    "id": "daprRuntimeVersion",
+                    "type": "string",
+                    "description": "Version of the dapr.io runtime to use.",
+                    "default": "1.10.0"
                 },
                 {
-                    "id": "run-mosquitto",
-                    "dependsOn": "ensure-dapr",
-                    "startupLine": "mosquitto version 2.0.14 running"
-                },
-                {
-                    "id": "run-vehicledatabroker",
-                    "dependsOn": "run-mosquitto",
-                    "startupLine": "You're up and running! Dapr logs will appear here."
-                },
-                {
-                    "id": "run-feedercan",
-                    "dependsOn": "run-vehicledatabroker"
-                },
-                {
-                    "id": "run-vehicleservices",
-                    "dependsOn": "run-vehicledatabroker"
+                    "id": "daprCliVersion",
+                    "type": "string",
+                    "description": "Version of the dapr.io CLI to use.",
+                    "default": "1.10.0"
                 }
-            ]
+            ] 
         }
     ]
 }

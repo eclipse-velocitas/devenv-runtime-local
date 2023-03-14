@@ -1,0 +1,87 @@
+[
+    {
+        "id": "mqtt",
+        "interfaces":[
+            "mqtt"
+        ],
+        "config": [
+            {
+                "key": "no-dapr",
+                "value": true
+            },
+            {
+                "key": "image",
+                "value": "eclipse-mosquitto:latest"
+            },
+            {
+                "key": "arg",
+                "value": "mosquitto"
+            },
+            {
+                "key": "arg",
+                "value": "-c"
+            },
+            {
+                "key": "arg",
+                "value": "/mosquitto-no-auth.conf"
+            }
+        ]
+    },	
+    {
+        "id": "vehicledatabroker",
+        "version": "v0.0.2",
+        "interfaces": [
+            "grpc://sdv.databroker.v1.Broker/GetDatapoints",
+            "grpc://sdv.databroker.v1.Broker/Subscribe",
+            "grpc://sdv.databroker.v1.Broker/SetDatapoints"
+        ],
+        "config": [
+            {
+                "key": "image",
+                "value": "ghcr.io/boschglobal/kuksa.val/databroker"
+            },
+            {
+                "key": "port",
+                "value": "55555"
+            },
+            {
+                "key": "env",
+                "value": "KUKSA_DATA_BROKER_METADATA_FILE=${{ builtin.cache.vspec_path }}"
+            }
+        ]
+    },
+    {
+        "id": "seatservice",
+        "version": "v0.0.2",
+        "interfaces":[
+            "grpc://sdv.edge.comfort.seats.v1.Seats/MoveComponent"
+        ],
+        "config": [
+            {
+                "key": "image",
+                "value": "ghcr.io/boschglobal/kuksa.val.services/seat_service"
+            },
+            {
+                "key": "port",
+                "value": "50051"
+            }
+        ]
+    },
+    {
+        "id": "feedercan",
+        "version": "v0.0.2",
+        "interfaces":[
+            "grpc://sdv.edge.comfort.seats.v1.Seats/MoveComponent"
+        ],
+        "config": [
+            {
+                "key": "image",
+                "value": "ghcr.io/boschglobal/kuksa.val.services/seat_service"
+            },
+            {
+                "key": "port",
+                "value": "50051"
+            }
+        ]
+    }
+]
