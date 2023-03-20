@@ -185,7 +185,8 @@ def run_services() -> None:
                 sp.fail("💥 "+ error)
 
 
-def handler(signum, frame):
+def handler(_signum, _frame):
+    print("Terminating processes...")
     for process in spawned_processes:
         process.terminate()
 
@@ -193,5 +194,6 @@ def handler(signum, frame):
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, handler)
     run_services()
+    print("Runtime up and running!")
     while True:
         time.sleep(1000)
