@@ -16,6 +16,7 @@ from io import TextIOWrapper
 import os
 import subprocess
 import time
+import signal
 from typing import Optional
 
 from yaspin import yaspin
@@ -48,7 +49,7 @@ def create_log_file(service_id: str) -> TextIOWrapper:
     return open(os.path.join(log_path, f"{service_id}.txt"), "w", encoding="utf-8")
 
 
-def run_service(service_spec):
+def run_service(service_spec) -> subprocess.Popen:
     """Run a single service.
 
     Args:
@@ -131,7 +132,7 @@ def run_service(service_spec):
     ]
 
     log.write(" ".join(docker_args) + "\n")
-    subprocess.Popen(
+    return subprocess.Popen(
         docker_args,
         start_new_session=True,
         stderr=subprocess.STDOUT,
@@ -168,19 +169,29 @@ def stop_service(service_spec):
         stdout=log,
     )
 
+spawned_processes = list[subprocess.Popen]()
 
 def run_services() -> None:
     """Run all required services."""
+
     for service in get_services():
         with yaspin(text=service["id"]).white.bold.shark.on_blue as sp:
             try:
                 stop_service(service)
-                run_service(service)
+                spawned_processes.append(run_service(service))
                 time.sleep(3)
                 sp.ok("✔ ")
             except Exception as error:
                 sp.fail("💥 "+ error)
 
 
+def handler(signum, frame):
+    for process in spawned_processes:
+        process.terminate()
+
+
 if __name__ == "__main__":
+    signal.signal(signal.SIGINT, handler)
     run_services()
+    while True:
+        time.sleep(1000)
