@@ -17,6 +17,7 @@ import os
 import subprocess
 import time
 import signal
+import sys
 from typing import Optional
 
 from yaspin import yaspin
@@ -189,6 +190,7 @@ def handler(_signum, _frame):
     print("Terminating processes...")
     for process in spawned_processes:
         process.terminate()
+    sys.exit(0)
 
 
 if __name__ == "__main__":
