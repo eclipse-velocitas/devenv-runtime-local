@@ -170,32 +170,48 @@ def stop_service(service_spec):
         stdout=log,
     )
 
+
 spawned_processes = list[subprocess.Popen]()
+
 
 def run_services() -> None:
     """Run all required services."""
 
-    for service in get_services():
-        with yaspin(text=service["id"]).white.bold.shark.on_blue as sp:
-            try:
+    with yaspin(text="Starting runtime") as spinner:
+        try:
+            for service in get_services():
                 stop_service(service)
                 spawned_processes.append(run_service(service))
                 time.sleep(3)
-                sp.ok("✔ ")
-            except Exception as error:
-                sp.fail("💥 "+ error)
+                spinner.write(f"> {service['id']} running")
+            spinner.ok("✔ ")
+        except RuntimeError as error:
+            spinner.write(error.with_traceback())
+            spinner.fail("💥 ")
+            terminate_spawned_processes()
+
+
+def wait_while_processes_are_running():
+    while len(spawned_processes) > 0:
+        time.sleep(1)
+        for process in spawned_processes:
+            process.poll()
+
+
+def terminate_spawned_processes():
+    with yaspin(text="Stopping runtime") as spinner:
+        while len(spawned_processes) > 0:
+            process = spawned_processes.pop()
+            process.terminate()
+            spinner.write(f"> {process.args[0]} terminated")
+        spinner.ok("✔")
 
 
 def handler(_signum, _frame):
-    print("Terminating processes...")
-    for process in spawned_processes:
-        process.terminate()
-    sys.exit(0)
+    terminate_spawned_processes()
 
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, handler)
     run_services()
-    print("Runtime up and running!")
-    while True:
-        time.sleep(1000)
+    wait_while_processes_are_running()
