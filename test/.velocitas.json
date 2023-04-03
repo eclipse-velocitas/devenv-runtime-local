@@ -1,0 +1,8 @@
+{
+    "packages": [
+        {
+            "name": "devenv-runtime-local",
+            "version": "hash_id"
+        }
+    ]
+}
