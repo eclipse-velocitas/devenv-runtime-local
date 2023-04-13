@@ -17,6 +17,8 @@ echo "#######################################################"
 echo "### Running VehicleServices                         ###"
 echo "#######################################################"
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 # Configure Service Specific Requirements
 configure_service() {
     case $1 in
@@ -28,6 +30,14 @@ configure_service() {
             DOCKER_NET_CONFIG="--network host"
             # Configure ENVs need to run docker container
             DOCKER_ENVS="-e VEHICLEDATABROKER_DAPR_APP_ID -e CAN -e DAPR_GRPC_PORT -e DAPR_HTTP_PORT -e SERVICE_PORT"
+            ;;
+        mockservice)
+            export SERVICE_PORT=50052
+            export VEHICLEDATABROKER_DAPR_APP_ID=vehicledatabroker
+            # Configure docker networking, e.g. ports for docker to expose
+            DOCKER_NET_CONFIG="--network host"
+            # Configure ENVs need to run docker container
+            DOCKER_ENVS="-e VEHICLEDATABROKER_DAPR_APP_ID -e DAPR_GRPC_PORT -e DAPR_HTTP_PORT -e SERVICE_PORT -v ${SCRIPT_DIR}/mock.yaml:/dist/mock.yaml"
             ;;
         *)
             echo "Unknown Service to configure."

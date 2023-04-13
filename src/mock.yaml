@@ -1,0 +1,51 @@
+signals:
+  - path: Vehicle.Speed
+    type: float
+    initial: 20
+    delta: 1
+    interval: 500
+  - path: Vehicle.Cabin.Seat.Row1.Pos1.Massage
+    type: uint8
+    initial: 0
+    delta: 1
+    interval: 10
+  - path: Vehicle.Cabin.Seat.Row1.Pos1.AdvancedMassage.Bubble1.Inflation
+    type: uint8
+    initial: 0
+    delta: 1
+    interval: 5
+  - path: Vehicle.Cabin.Seat.Row1.Pos1.AdvancedMassage.Bubble1.Heating
+    type: uint8
+    initial: 0
+    delta: 1
+    interval: 10
+  - path: Vehicle.Cabin.Seat.Row1.Pos1.AdvancedMassage.Bubble2.Inflation
+    type: uint8
+    initial: 0
+    delta: 1
+    interval: 5
+  - path: Vehicle.Cabin.Seat.Row1.Pos1.AdvancedMassage.Bubble2.Heating
+    type: uint8
+    initial: 0
+    delta: 1
+    interval: 10
+  - path: Vehicle.Cabin.Seat.Row1.Pos1.AdvancedMassage.Bubble3.Inflation
+    type: uint8
+    initial: 0
+    delta: 1
+    interval: 5
+  - path: Vehicle.Cabin.Seat.Row1.Pos1.AdvancedMassage.Bubble3.Heating
+    type: uint8
+    initial: 0
+    delta: 1
+    interval: 10
+  - path: Vehicle.Cabin.Seat.Row1.Pos1.AdvancedMassage.Bubble4.Inflation
+    type: uint8
+    initial: 0
+    delta: 1
+    interval: 5
+  - path: Vehicle.Cabin.Seat.Row1.Pos1.AdvancedMassage.Bubble4.Heating
+    type: uint8
+    initial: 0
+    delta: 1
+    interval: 10
