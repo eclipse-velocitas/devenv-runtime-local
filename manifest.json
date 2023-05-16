@@ -28,6 +28,10 @@
                 {
                     "id": "run-vehicleservices",
                     "executable": "./src/run-vehicleservices.sh"
+                },
+                {
+                    "id": "test",
+                    "executable": "pytest -s ./test/integration/integration_test.py"
                 }
             ],
             "start": [
